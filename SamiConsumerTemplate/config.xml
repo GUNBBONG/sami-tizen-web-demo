@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="http://yourdomain/SamiConsumerTemplate" version="1.0.0" viewmodes="maximized">
+    <access origin="*" subdomains="true"></access>
+    <tizen:application id="O28JVFV9lp.SamiConsumerTemplate" package="O28JVFV9lp" required_version="2.2"/>
+    <content src="index.html"/>
+    <feature name="http://tizen.org/feature/screen.size.normal.320.320"/>
+    <icon src="icon.png"/>
+    <name>SamiConsumerTemplate</name>
+    <tizen:privilege name="http://tizen.org/privilege/application.launch"/>
+    <tizen:privilege name="http://tizen.org/privilege/internet"/>
+    <tizen:setting background-support="disable" encryption="disable" hwkey-event="enable"/>
+</widget>

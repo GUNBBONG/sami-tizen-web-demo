@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width,user-scalable=no"/>
+	<title>Wearable UI</title>
+	<link rel="stylesheet"  href="lib/tau/wearable/theme/default/tau.min.css">
+	<!-- load theme file for your application -->
+	<link rel="stylesheet"  href="css/style.css">
+</head>
+<body>
+	<div class="ui-page ui-page-active" id="mainPage">
+		<header class="ui-header">
+			<h2 class="ui-title">SAMI Producer</h2>
+		</header>
+		<div class="ui-content content-padding">
+			<div id='registeredDeviceContent' style='display:none;'>
+				Device is already registered.
+				<button id="useRegisteredDeviceBtn" type="button">Use Registered Device</button>
+			</div>
+			<p>
+				This app sends messages to SAMI.
+			</p>
+			<button id='signInIframeBtn' type="button">Sign-in</button>
+			<button id='exitBtn' type="button">Exit</button>
+		</div>
+	</div>
+	<div class="ui-page" id="loginPage">
+		<div class="ui-content">
+		<iframe id='loginFrm'></iframe>
+		</div>
+	</div>
+	<div class="ui-page" id="welcomePage">
+		<header class="ui-header">
+			<h2 class="ui-title">Welcome</h2>
+		</header>
+		<div class="ui-content content-padding">
+			<div id="userinfo"></div>
+			<div>
+			<p>
+			Register This Device
+			</p>
+			<input id="deviceNameInput" type=text placeholder="Device Name">
+			<button id='registerDeviceBtn' type="button">Register</button>
+			</div>
+		</div>
+	</div>
+	<div class="ui-page" id="deviceInfoPage">
+		<header class="ui-header">
+			<h2 class="ui-title">Device Info</h2>
+		</header>
+		<div class="ui-content content-padding">
+			<div id="deviceinfo"></div>
+			<button id='sendMsgBtn' type="button">Send Random ECG</button>
+		</div>
+	</div>
+	<div id="popupToast" class="ui-popup ui-popup-toast">
+		<div class="ui-popup-content"></div>
+	</div>
+</body>
+<script type="text/javascript" src="lib/tau/wearable/js/tau.js"></script>
+<script type="text/javascript" src="lib/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="lib/URI.js"></script>
+<script type="text/javascript" src="lib/swagger-dev2.0/shred.bundle.js"></script>
+<script type="text/javascript" src="lib/swagger-dev2.0/swagger-client.js"></script>
+<!-- load javascript file for your application -->
+<script src="js/app.js"></script>
+<script src="js/lowBatteryCheck.js"></script>
+</html>

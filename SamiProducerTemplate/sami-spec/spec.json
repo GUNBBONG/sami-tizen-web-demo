@@ -1,0 +1,1816 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "SAMI API",
+    "license": {
+      "name": "MIT",
+      "url": "http://en.wikipedia.org/wiki/MIT_License"
+    },
+    "termsOfService": "http://www.samsung.com/global/business/mobile/info/terms-and-conditions.html",
+    "contact": {
+      "name": "SAMI API Support"
+    }
+  },
+  "host": "api.samsungsami.io",
+  "basePath": "/v1.1",
+  "schemes": ["https"],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "samiAccessCode": {
+      "type": "oauth2",
+      "scopes": {
+        "read": "Read from SAMI",
+        "write": "Write from SAMI"
+      },
+      "flow": "accessCode",
+      "authorizationUrl": "https://accounts.samsungsami.io/authorize",
+      "tokenUrl": "https://accounts.samsungsami.io/token"
+    },
+    "samiImplicit": {
+      "type": "oauth2",
+      "scopes": {
+        "read": "Read from SAMI",
+        "write": "Write from SAMI"
+      },
+      "flow": "implicit",
+      "authorizationUrl": "https://accounts.samsungsami.io/authorize"
+    }
+  },
+  "paths": {
+    "/devices": {
+      "post": {
+        "tags": [
+          "devices"
+        ],
+        "description": "Create a device",
+        "operationId": "addDevice",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "device",
+            "description": "Device to be added to the user",
+            "required": true,
+            "schema": {
+              "$ref": "Device"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "DeviceEnvelope"
+            }
+          }
+        }
+      }
+    },
+    "/devices/{deviceId}": {
+      "get": {
+        "tags": [
+          "devices"
+        ],
+        "description": "Retrieves a device",
+        "operationId": "getDevice",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceId",
+            "description": "deviceId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "DeviceEnvelope"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "devices"
+        ],
+        "description": "Updates a device",
+        "operationId": "updateDevice",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceId",
+            "description": "deviceId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "device",
+            "description": "Device to be updated",
+            "required": true,
+            "schema": {
+              "$ref": "Device"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "DeviceEnvelope"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "devices"
+        ],
+        "description": "Deletes a device",
+        "operationId": "deleteDevice",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceId",
+            "description": "deviceId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "DeviceEnvelope"
+            }
+          }
+        }
+      }
+    },
+    "/devices/{deviceId}/tokens": {
+      "get": {
+        "tags": [
+          "devices"
+        ],
+        "description": "Retrieves a device's token",
+        "operationId": "getDeviceToken",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceId",
+            "description": "deviceId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "DeviceTokenEnvelope"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "devices"
+        ],
+        "description": "Updates a device's token",
+        "operationId": "updateDeviceToken",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceId",
+            "description": "deviceId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "DeviceTokenEnvelope"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "devices"
+        ],
+        "description": "Deletes a device's token",
+        "operationId": "deleteDeviceToken",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceId",
+            "description": "deviceId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "DeviceTokenEnvelope"
+            }
+          }
+        }
+      }
+    },
+    "/devicetypes": {
+      "get": {
+        "tags": [
+          "device types"
+        ],
+        "description": "Retrieves Device Types",
+        "operationId": "getDeviceTypes",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "name",
+            "description": "Device Type name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "description": "Offset for pagination.",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "count",
+            "description": "Desired count of items in the result set",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "DeviceTypesEnvelope"
+            }
+          }
+        }
+      }
+    },
+    "/devicetypes/{deviceTypeId}": {
+      "get": {
+        "tags": [
+          "device types"
+        ],
+        "description": "Retrieves a Device Type",
+        "operationId": "getDeviceType",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceTypeId",
+            "description": "deviceTypeId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "DeviceTypeEnvelope"
+            }
+          }
+        }
+      }
+    },
+    "/devicetypes/{deviceTypeId}/availablemanifestversions": {
+      "get": {
+        "tags": [
+          "device types"
+        ],
+        "description": "Get a Device Type's available manifest versions",
+        "operationId": "getAvailableManifestVersions",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceTypeId",
+            "description": "deviceTypeId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "ManifestVersionsEnvelope"
+            }
+          }
+        }
+      }
+    },
+    "/devicetypes/{deviceTypeId}/manifests/latest/properties": {
+      "get": {
+        "tags": [
+          "device types"
+        ],
+        "description": "Get a Device Type's manifest properties for the latest version.",
+        "operationId": "getLatestManifestProperties",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceTypeId",
+            "description": "Device Type ID.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "ManifestPropertiesEnvelope"
+            }
+          }
+        }
+      }
+    },
+    "/devicetypes/{deviceTypeId}/manifests/{version}/properties": {
+      "get": {
+        "tags": [
+          "device types"
+        ],
+        "description": "Get a Device Type's manifest properties for a specific version.",
+        "operationId": "getManifestProperties",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "deviceTypeId",
+            "description": "Device Type ID.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "version",
+            "description": "Manifest Version.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "ManifestPropertiesEnvelope"
+            }
+          }
+        }
+      }
+    },
+    "/messages/raw": {
+      "get": {
+        "tags": [
+          "messages"
+        ],
+        "description": "Get Raw messages",
+        "operationId": "getRawMessages",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sdid",
+            "description": "Source device ID of the messages being searched.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+
+
+
+
+
+
+
+            "name": "offset",
+            "description": "A string that represents the starting item, should be the value of 'next' field received in the last response. (required for pagination)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "count",
+            "description": "count",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "startDate",
+            "description": "startDate",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "endDate",
+            "description": "endDate",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "order",
+            "description": "Desired sort order: 'asc' or 'desc'",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "RawMessagesEnvelope"
+            }
+          }
+        }
+      }
+    },
+    "/messages": {
+      "get": {
+        "tags": [
+          "messages"
+        ],
+        "description": "Get the messages normalized",
+        "operationId": "getNormalizedMessages",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "uid",
+            "description": "User ID. If not specified, assume that of the current authenticated user. If specified, it must be that of a user for which the current authenticated user has read access to.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "sdid",
+            "description": "Source device ID of the messages being searched.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "mid",
+            "description": "The SAMI message ID being searched.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "fieldPresence",
+            "description": "String representing a field from the specified device ID.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "filter",
+            "description": "Filter.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "description": "A string that represents the starting item, should be the value of 'next' field received in the last response. (required for pagination)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "count",
+            "description": "count",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "startDate",
+            "description": "startDate",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "endDate",
+            "description": "endDate",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "order",
+            "description": "Desired sort order: 'asc' or 'desc'",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "NormalizedMessagesEnvelope"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "messages"
+        ],
+        "description": "Posts a message",
+        "operationId": "postMessage",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "message",
+            "description": "Device Message",
+            "required": true,
+            "schema": {
+              "$ref": "Message"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "MessageIDEnvelope"
+            }
+          }
+        }
+      }
+    },
+    "/messages/analytics/aggregates": {
+      "get": {
+        "tags": [
+          "messages"
+        ],
+        "description": "Get aggregates on normalized messages.",
+        "operationId": "getMessageAggregates",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sdid",
+            "description": "Source device ID of the messages being searched.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "field",
+            "description": "String representing a field from the specified device ID.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "startDate",
+            "description": "startDate",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "endDate",
+            "description": "endDate",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "AggregatesEnvelope"
+            }
+          }
+        }
+      }
+    },
+    "/messages/last": {
+      "get": {
+        "tags": [
+          "messages"
+        ],
+        "description": "Get last messages normalized.",
+        "operationId": "getLastNormalizedMessages",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "count",
+            "description": "Number of items to return per query.",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "sdids",
+            "description": "Comma separated list of source device IDs (minimum: 1).",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "field",
+            "description": "String representing a field from the specified device ID.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "NormalizedMessagesEnvelope"
+            }
+          }
+        }
+      }
+    },
+    "/messages/presence": {
+      "get": {
+        "tags": [
+          "messages"
+        ],
+        "description": "Get normalized message presence.",
+        "operationId": "getFieldPresence",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sdid",
+            "description": "Source device ID of the messages being searched.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "fieldPresence",
+            "description": "String representing a field from the specified device ID.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "startDate",
+            "description": "startDate",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "endDate",
+            "description": "endDate",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "interval",
+            "description": "String representing grouping interval. One of: 'minute' (1 hour limit), 'hour' (1 day limit), 'day' (31 days limit), 'month' (1 year limit), or 'year' (10 years limit).",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "FieldPresenceEnvelope"
+            }
+          }
+        }
+      }
+    },
+    "/messages/export": {
+      "get": {
+        "tags": [
+          "messages"
+        ],
+        "description": "Get the messages normalized",
+        "operationId": "exportNormalizedMessages",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "uid",
+            "description": "User ID. If not specified, assume that of the current authenticated user. If specified, it must be that of a user for which the current authenticated user has read access to.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "sdid",
+            "description": "Source device ID of the messages being searched.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "mid",
+            "description": "The SAMI message ID being searched.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "fieldPresence",
+            "description": "String representing a field from the specified device ID.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "filter",
+            "description": "Filter.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "description": "A string that represents the starting item, should be the value of 'next' field received in the last response. (required for pagination)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "startDate",
+            "description": "startDate",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "endDate",
+            "description": "endDate",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "query",
+            "name": "order",
+            "description": "Desired sort order: 'asc' or 'desc'",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "format",
+            "description": "Format the export will be returned as.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "ExportEnvelope"
+            }
+          }
+        }
+      }
+    },
+    "/messages/export/{exportId}/status": {
+      "get": {
+        "tags": [
+          "messages"
+        ],
+        "description": "Check status of the export query.",
+        "operationId": "checkExportStatus",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "exportId",
+            "description": "The Export ID of the export query.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "ExportStatusEnvelope"
+            }
+          }
+        }
+      }
+    },
+    "/users/self": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "description": "Get's the current user's profile",
+        "operationId": "self",
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "UserEnvelope"
+            }
+          }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+      }
+    },
+    "/users/{userId}/properties": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "description": "Get application properties of a user",
+        "operationId": "getUserProperties",
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "PropertiesEnvelope"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "description": "User Id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "aid",
+            "description": "Application ID",
+            "required": false,
+            "type": "string"
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "description": "Create application properties for a user",
+        "operationId": "createUserProperties",
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "PropertiesEnvelope"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "description": "User Id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "aid",
+            "description": "Application ID",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "properties",
+            "description": "Properties to be updated",
+            "required": true,
+            "schema": {
+              "$ref": "AppProperties"
+            }
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "description": "Updates application properties of a user",
+        "operationId": "updateUserProperties",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "description": "User Id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "aid",
+            "description": "Application ID",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "properties",
+            "description": "Properties to be updated",
+            "required": true,
+            "schema": {
+              "$ref": "AppProperties"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "PropertiesEnvelope"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "description": "Deletes a users properties",
+        "operationId": "deleteUserProperties",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "description": "User Id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "aid",
+            "description": "Application ID",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "PropertiesEnvelope"
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}/devices": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "description": "Retrieve User's Devices",
+        "operationId": "getUserDevices",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "description": "Offset for pagination.",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "count",
+            "description": "Desired count of items in the result set",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "includeProperties",
+            "description": "Optional. Boolean (true/false) - If false, only return the user's device types. If true, also return device types shared by other users.",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "in": "path",
+            "name": "userId",
+            "description": "User ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "DevicesEnvelope"
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}/devicetypes": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "description": "Retrieve User's Device Types",
+        "operationId": "getUserDeviceTypes",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "description": "Offset for pagination.",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "count",
+            "description": "Desired count of items in the result set",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "includeShared",
+            "description": "Optional. Boolean (true/false) - If false, only return the user's device types. If true, also return device types shared by other users.",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "in": "path",
+            "name": "userId",
+            "description": "User ID.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success",
+            "schema": {
+              "$ref": "DeviceTypesEnvelope"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Message": {
+      "properties": {
+        "sdid": {
+          "type": "string"
+        },
+        "ddid": {
+          "type": "string"
+        },
+        "ts": {
+          "type": "number"
+        },
+        "token": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "object"
+          }
+        }
+      },
+      "required": [
+        "sdid",
+        "data"
+      ]
+    },
+    "MessageIDEnvelope": {
+      "properties": {
+        "data": {
+          "$ref": "MessageID"
+        }
+      },
+      "required": [
+        "data"
+      ]
+    },
+    "MessageID": {
+      "properties": {
+        "mid": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "mid"
+      ]
+    },
+    "RawMessage": {
+      "properties": {
+        "cts": {
+          "type": "number"
+        },
+        "ts": {
+          "type": "number"
+        },
+        "mid": {
+          "type": "string"
+        },
+        "sdid": {
+          "type": "string"
+        },
+        "data": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "sdid",
+        "mid",
+        "cts",
+        "ts",
+        "data"
+      ]
+    },
+    "RawMessagesEnvelope": {
+      "properties": {
+        "sdid": {
+          "type": "string"
+        },
+        "mid": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "number"
+        },
+        "endDate": {
+          "type": "number"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "order": {
+          "type": "string"
+        },
+        "size": {
+          "type": "number"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "RawMessage"
+          }
+        }
+      },
+      "required": [
+        "startDate",
+        "endDate",
+        "count",
+        "order",
+        "size",
+        "data"
+      ]
+    },
+    "NormalizedMessage": {
+      "properties": {
+        "cts": {
+          "type": "number"
+        },
+        "ts": {
+          "type": "number"
+        },
+        "mid": {
+          "type": "string"
+        },
+        "sdid": {
+          "type": "string"
+        },
+
+        "sdtid": {
+          "type": "string"
+        },
+        "uid": {
+          "type": "string"
+        },
+        "mv": {
+          "type": "number"
+        },
+        "data": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "object"
+          }
+        }
+      },
+      "required": [
+        "sdid",
+        "mid",
+
+        "sdtid",
+        "cts",
+        "ts",
+        "uid",
+        "mv",
+        "data"
+      ]
+    },
+    "NormalizedMessagesEnvelope": {
+      "properties": {
+        "sdids": {
+          "type": "string"
+        },
+        "sdid": {
+          "type": "string"
+        },
+        "uid": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "number"
+        },
+        "endDate": {
+          "type": "number"
+        },
+        "order": {
+          "type": "string"
+        },
+        "next": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "NormalizedMessage"
+          }
+        }
+      },
+      "required": [
+        "count",
+        "size",
+        "data"
+      ]
+    },
+    "Aggregates": {
+      "properties": {
+        "count": {
+          "type": "number"
+        },
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "mean": {
+          "type": "number"
+        },
+        "sum": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "count",
+        "min",
+        "max",
+        "mean",
+        "sum"
+      ]
+    },
+    "AggregatesEnvelope": {
+      "properties": {
+        "sdid": {
+          "type": "string"
+        },
+        "field": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "endDate": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "size": {
+          "type": "number"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "Aggregates"
+          }
+        }
+      },
+      "required": [
+        "startDate",
+        "endDate",
+        "sdid",
+        "field",
+
+        "size",
+        "data"
+      ]
+    },
+    "FieldPresence": {
+      "properties": {
+        "startDate": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "required": [
+        "startDate"
+      ]
+    },
+    "FieldPresenceEnvelope": {
+      "properties": {
+        "sdid": {
+          "type": "string"
+        },
+        "fieldPresence": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "endDate": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "interval": {
+          "type": "string"
+        },
+        "size": {
+          "type": "number"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "FieldPresence"
+          }
+        }
+      },
+      "required": [
+        "startDate",
+        "endDate",
+        "sdid",
+        "fieldPresence",
+        "interval",
+        "size",
+        "data"
+      ]
+    },
+    "ExportEnvelope": {
+      "properties": {
+        "exportId": {
+          "type": "string"
+        },
+        "uid": {
+          "type": "string"
+        },
+        "sdid": {
+          "type": "string"
+        },
+        "startDate": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "endDate": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "order": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "startDate",
+        "endDate",
+        "sdid",
+        "fieldPresence",
+        "interval",
+        "size",
+        "order",
+        "format"
+      ]
+    },
+    "ExportStatusEnvelope": {
+      "properties": {
+        "exportId": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "DevicesEnvelope": {
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "data": {
+          "$ref": "DeviceArray"
+        }
+      },
+      "required": [
+        "total",
+        "count",
+        "offset"
+      ]
+    },
+    "DeviceArray": {
+      "properties": {
+        "devices": {
+          "type": "array",
+          "items": {
+            "$ref": "Device"
+          }
+        }
+      }
+    },
+    "DeviceEnvelope": {
+      "properties": {
+        "data": {
+          "$ref": "Device"
+        }
+      },
+      "required": [
+        "data"
+      ]
+    },
+    "Device": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "uid": {
+          "type": "string"
+        },
+        "dtid": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "manifestVersion": {
+          "type": "number"
+        },
+        "manifestVersionPolicy": {
+          "type": "string"
+        },
+        "needProviderAuth": {
+          "type": "boolean"
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "object"
+          }
+        },
+        "providerCredentials": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "object"
+          }
+        }
+      },
+      "required": [
+        "dtid",
+        "name",
+        "manifestVersion",
+        "manifestVersionPolicy"
+      ]
+    },
+    "DeviceTokenEnvelope": {
+      "properties": {
+        "data": {
+          "$ref": "DeviceToken"
+        }
+      },
+      "required": [
+        "data"
+      ]
+    },
+    "DeviceToken": {
+      "properties": {
+        "accessToken": {
+          "type": "string"
+        },
+        "uid": {
+          "type": "string"
+        },
+        "did": {
+          "type": "string"
+        },
+        "cid": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "accessToken",
+        "uid",
+        "did",
+        "cid"
+      ]
+    },
+    "ManifestVersionsEnvelope": {
+      "properties": {
+        "data": {
+          "$ref": "ManifestVersions"
+        }
+      },
+      "required": [
+        "data"
+      ]
+    },
+    "ManifestVersions": {
+      "properties": {
+        "versions": {
+          "type": "array",
+          "items": {
+            "$ref": "string"
+          }
+        }
+      },
+      "required": [
+        "versions"
+      ]
+    },
+    "ManifestPropertiesEnvelope": {
+      "properties": {
+        "data": {
+          "$ref": "ManifestProperties"
+        }
+      },
+      "required": [
+        "data"
+      ]
+    },
+    "ManifestProperties": {
+      "properties": {
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "object"
+          }
+        }
+      },
+      "required": [
+        "properties"
+      ]
+    },
+    "DeviceTypesEnvelope": {
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "data": {
+          "$ref": "DeviceTypeArray"
+        }
+      },
+      "required": [
+        "total",
+        "count",
+        "offset"
+      ]
+    },
+    "DeviceTypeArray": {
+      "properties": {
+        "deviceTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "DeviceType"
+          }
+        }
+      }
+    },
+    "DeviceTypeEnvelope": {
+      "properties": {
+        "data": {
+          "$ref": "DeviceType"
+        }
+      },
+      "required": [
+        "data"
+      ]
+    },
+    "DeviceType": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "uid": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "published": {
+          "type": "boolean"
+        },
+        "approved": {
+          "type": "boolean"
+        },
+        "latestVersion": {
+          "type": "number"
+        },
+        "uniqueName": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "uniqueName"
+      ]
+    },
+    "User": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "fullName": {
+          "type": "string"
+        },
+        "saIdentity": {
+          "type": "string"
+        },
+        "createdOn": {
+          "type": "number"
+        },
+        "modifiedOn": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "email",
+        "fullName",
+        "createdOn",
+        "modifiedOn"
+      ]
+    },
+    "UserEnvelope": {
+      "properties": {
+        "data": {
+          "$ref": "User"
+        }
+      },
+      "required": [
+        "data"
+      ]
+    },
+    "PropertiesEnvelope": {
+      "properties": {
+        "data": {
+          "$ref": "AppProperties"
+        }
+      },
+      "required": [
+        "data"
+      ]
+    },
+    "AppProperties": {
+      "properties": {
+        "uid": {
+          "type": "string"
+        },
+        "aid": {
+          "type": "string"
+        },
+        "properties": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "properties"
+      ]
+    }
+  }
+}
